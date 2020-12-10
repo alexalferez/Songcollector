@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Song Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ song.song }}</span>
+    <p>Album: {{ song.album }}</p>
+    <p>Genre: {{ song.genre }}</p>
+    {% if song.rating > 0 %}
+      <p>Rating: {{ song.rating }}</p>
+    {% else %}
+      <p>Rating: No Rating</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
