@@ -1,9 +1,14 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Song
 
 # Create your views here.
 
 # Define the home view
+class SongCreate(CreateView):
+    model = Song
+    fields = '__all__'
+
 def home(request):
   return render(request, 'home.html')
 
@@ -17,3 +22,4 @@ def songs_index(request):
 def songs_detail(request, song_id):
     song = Song.objects.get(id=song_id)
     return render(request, 'songs/detail.html', { 'song': song })
+
