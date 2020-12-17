@@ -23,7 +23,7 @@ class Song(models.Model):
     song = models.CharField(max_length=100)
     genre = models.TextField(max_length=100)
     rating = models.IntegerField()
-    album = models.ManyToManyField(Album)
+    albums = models.ManyToManyField(Album)
 
     def __str__(self):
         return self.song

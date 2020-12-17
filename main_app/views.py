@@ -14,7 +14,7 @@ class SongCreate(CreateView):
 class SongUpdate(UpdateView):
   model = Song
   # Let's disallow the renaming of a cat by excluding the name field!
-  fields = ['album', 'genre', 'rating']
+  fields = ['genre', 'rating']
 
 class SongDelete(DeleteView):
   model = Song
@@ -33,9 +33,11 @@ def songs_index(request):
 
 def songs_detail(request, song_id):
     song = Song.objects.get(id=song_id)
+    albums_song_doesnt_have = Album.objects.exclude(id__in = song.albums.all().values_list('id'))
     listening_form = ListeningForm()
     return render(request, 'songs/detail.html', { 
-        'song': song, 'listening_form': listening_form
+        'song': song, 'listening_form': listening_form,
+        'albums': albums_song_doesnt_have
     })
 
 def add_listening(request, song_id):
@@ -51,8 +53,8 @@ def add_listening(request, song_id):
   return redirect('detail', song_id=song_id)
 
 def assoc_album(request, song_id, album_id):
-  Song.objects.get(id=song_id).Album.add(album_id)
-  return redirect('detail', songid=song_id)
+  Song.objects.get(id=song_id).albums.add(album_id)
+  return redirect('detail', song_id=song_id)
 
 class AlbumList(ListView):
   model = Album
@@ -66,7 +68,7 @@ class AlbumCreate(CreateView):
 
 class AlbumUpdate(UpdateView):
   model = Album
-  fields = ['name', 'color']
+  fields = ['name', 'covercolor']
 
 class AlbumDelete(DeleteView):
   model = Album
